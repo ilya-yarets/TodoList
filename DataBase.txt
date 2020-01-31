@@ -1,0 +1,20 @@
+CREATE SCHEMA `todolist` ;
+
+CREATE TABLE `todolist`.`todo` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `datetodo` DATE NOT NULL,
+  `nametodo` VARCHAR(100) NOT NULL,
+  `statustodo` TINYINT(1) UNSIGNED NOT NULL,
+  `filenametodo` VARCHAR(100) NOT NULL,
+  `userid` INT(10) NOT NULL,
+  `path` VARCHAR(100) NOT NULL,
+  `added_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`, `added_date`));
+CREATE TABLE `todolist`.`user` (
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `firstname` VARCHAR(25) NOT NULL,
+  `lastname` VARCHAR(25) NOT NULL,
+  `login` VARCHAR(30) NOT NULL,
+  `password` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE);

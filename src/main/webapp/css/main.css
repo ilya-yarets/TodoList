@@ -1,0 +1,211 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+body { /*цвета*/
+    background: url("../img/bg.jpg");
+    font-family: "Roboto", sans-serif;
+    margin: 50px;
+    padding: 0;
+    background-size: 100%;
+}
+
+#container {
+    width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.clear { /*Для удаления обтекания*/
+    clear: both;
+}
+
+.right {
+    text-align: right;
+}
+
+
+header {
+    background: linear-gradient(#15141512 1%, #4e4751db 40%, #4e4751d1 70%, #e19fe130 99%);
+    height: 55px;
+    border-radius: 20px 20px 0 0;
+    padding: 0.3% 20px 0px;
+
+}
+
+header h1 { /*todo - task manager*/
+    color: #fff;
+    float: left;
+    font-size: 210%;
+    margin: 0px;
+    padding: 0.3% 0 0 0;
+}
+
+header h2 { /*hello*/
+    color: #ffffff;
+    float: left;
+    font-size: 200%;
+    margin: 0.3%;
+    margin-left: 300px;
+
+}
+
+
+#topmenu { /*logout*/
+    padding: 0;
+    margin: 3px 0px 0px;
+    list-style: none; /*убрать точки*/
+    float: right;
+}
+
+#topmenu li {
+    float: left; /*Список в одну горизот строку*/
+
+}
+
+#topmenu a { /*Обращение к самому элементу с сылкой*/
+    background: url("../img/bg_item.png") no-repeat right center; /*разделитель, находится с права и не повторяется и по центру*/
+    color: white; /*цвет текста*/
+    display: block; /*для того чтобы сделать поля для кнопки*/
+    padding: 9px 14px 9px; /*первая цифра сверху, вторая снизу, третья слева и права*/
+    text-decoration: none; /*убираем одчеркивание*/
+
+}
+
+/*при наведении на ссылку цвет*/
+#topmenu a:hover, #topmenu a.active {
+    background: #424242;
+    border: 1px solid #717171;
+    padding: 8px 13px 8px; /*уменьшение чтобы не смущалось*/
+    border-radius: 5px; /*закругление*/
+}
+
+
+#slider {
+    background-color: #c395a824;
+    border-bottom: 1px solid #00faff26;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 170px;
+}
+
+#course {
+    margin: 0 auto;
+    min-width: 1000px;
+    width: 50%;
+}
+
+#course h2 {
+    font-weight: normal;
+    margin: 0px 0px 0px;
+    color: white;
+}
+
+#course p {
+    margin: 0;
+
+}
+
+#course section { /*кусок где написан текст*/
+    background-color: rgba(138, 149, 135, 0.37);
+    display: table-cell;
+    border-radius: 30px;
+    padding: 13px;
+    color: white;
+}
+
+#course img { /*картинка ToDO*/
+    float: left;
+    filter: alpha(Opacity=25);
+    opacity: 0.75;
+    margin: 20px 10px 0px 0px;
+    width: 300px;
+    border-radius: 30px;
+}
+
+/*__________три нижних блока*/
+#content {
+    margin: 20px 10px; /*опускаем все блоки чуть ниже от слайдера*/
+}
+
+
+.block { /*блоки*/
+    width: 220px; /*ужимаем блок до нужного размера*/
+}
+
+/*______________блок первый*/
+.block-header { /*шапка блока*/
+    background: linear-gradient(#ecf4eb00 0%, #add3a5 30%, #83ba7b 60%, #88cb9b80 100%);
+    color: white;
+    border-radius: 20px 20px 0 0;
+    padding: 10px 10px 8px 10px;
+}
+
+.block-content {
+    background-color: #00000057;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 3px 4px 10px #dddcdd;
+    padding: 10px;
+
+}
+
+.block-content p {
+    color: #f4eded99;
+}
+
+.container {
+    background-color: #ffffff52;
+    text-align: center;
+    max-width: 1000px;
+    padding: 0 0 0 0;
+}
+
+.container p {
+    color:white;
+}
+
+.container h1 {
+    color: white;
+}
+
+.block nav > div > a:only-of-type { /*обращение к непоресредственно дочернему div*/
+    background: url("../img/menu_sep.png") no-repeat center bottom, url("../img/arrow_menu.png") no-repeat 5px center;
+
+}
+
+.block nav a {
+    background: url("../img/arrow_menu.png") no-repeat 5px center;
+    color: rgb(255, 255, 255);
+    display: block;
+    padding: 10px 0 10px 20px;
+    text-decoration: none;
+}
+
+.block nav p{
+    color: rgb(255, 255, 255);
+    margin:auto;
+
+}
+
+.block nav div a:hover, .block div a.active { /*активная строчка*/
+    background: #7afd4480;
+    border-left: 2px solid #20fa00;
+}
+
+/*Правый блок*/
+
+#left {
+    float: left;
+}
+
+#right {
+    float: right;
+}
+
+.table {
+    color: #ffffff;
+    background-color: #1f000073;
+}
+
+.col-md-4 {
+    margin-left: auto;
+    margin-right: auto;
+}
