@@ -22,5 +22,4 @@ public class DAOFactory {
     public static <T> T getDAO(Class<T> type) {
         return  type.cast(map.get(type));
     }
-
 }

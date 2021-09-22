@@ -3,12 +3,9 @@ package dao;
 import entity.ToDo;
 
 import java.sql.Date;
-import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 public interface IToDoDAO {
-
     List<ToDo> getAllActiveTasksForUser(int userId);
 
     List<ToDo> getAllTasksByStatus(int userId, byte status);
@@ -28,7 +25,4 @@ public interface IToDoDAO {
     boolean recoveryThisTask(int id);
 
     void addNewTask(ToDo toDo);
-
-
-
 }

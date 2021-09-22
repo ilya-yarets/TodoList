@@ -1,5 +1,6 @@
 package controllers;
 
+import constants.Constants;
 import constants.ConstantsJSP;
 import dao.IFileDAO;
 import factory.DAOFactory;
@@ -19,41 +20,32 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @WebServlet(name = "FileController", urlPatterns = {"/FileController"})
-@MultipartConfig(fileSizeThreshold = 1024 * 1024 * 10, // 10 MB
-        maxFileSize = 1024 * 1024 * 1000, // 1 GB
-        maxRequestSize = 1024 * 1024 * 1000)    // 1 GB
+@MultipartConfig(fileSizeThreshold = Constants.TEN_MB, maxFileSize = Constants.ONE_GB, maxRequestSize = Constants.ONE_GB)
 
 public class FileController extends BaseController {
-
     RequestDispatcher dispatcher = null;
-
     private IFileDAO iFileDAO = DAOFactory.getDAO(IFileDAO.class);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter(ConstantsJSP.KEY_ACTION);
 
         switch (action) {
-
             case "DELETE":
                 deleteFile(request, response);
                 break;
         }
-
     }
 
     private void deleteFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
             String fileName = request.getParameter(ConstantsJSP.KEY_FILE_NAME);
-            String filePath = "C:\\Files\\resources" + File.separator + fileName;
-
+            String filePath = Constants.UPLOAD_PATH + File.separator + fileName;
 
             File file = new File(filePath);
             if (file.exists()) {
-                file.delete();
+                file.delete();//FIXME - результат будет проигнорирован
                 iFileDAO.updateFilePath(id, ConstantsJSP.EMPTY, ConstantsJSP.EMPTY);
                 request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_NOTIFICATION_DELETED);
             }
@@ -65,33 +57,27 @@ public class FileController extends BaseController {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter(ConstantsJSP.KEY_ACTION);
 
         switch (action) {
-
             case "UPLOAD":
                 uploadFile(request, response);
                 break;
-
         }
-
     }
 
     private void uploadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            String folderName = "resources";
-            String uploadPath = "C:\\Files\\" + folderName;
+            String uploadPath = Constants.UPLOAD_PATH;
             File dir = new File(uploadPath);
             if (!dir.exists()) {
-                dir.mkdirs();
+                dir.mkdirs();//FIXME - директория не будет создана
             }
             Part file = request.getPart(ConstantsJSP.KEY_FILE_NAME_TODO);
 
                 String fileName = file.getSubmittedFileName();
-            if (fileName == null || fileName =="") {
+            if (fileName == null || fileName.isEmpty()) {
                 request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_FILE_NOT_FOUND);
                 dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO_LIST);
                 dispatcher.forward(request, response);
@@ -100,7 +86,7 @@ public class FileController extends BaseController {
                 InputStream is = file.getInputStream();
                 Files.copy(is, Paths.get(uploadPath + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
 
-                Integer id = Integer.valueOf(request.getParameter(ConstantsJSP.KEY_ID));
+                int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
 
                 if (iFileDAO.updateFilePath(id, fileName, path))
                     request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_NOTIFICATION_ADDED);
@@ -112,5 +98,4 @@ public class FileController extends BaseController {
             e.printStackTrace();
         }
     }
-
 }

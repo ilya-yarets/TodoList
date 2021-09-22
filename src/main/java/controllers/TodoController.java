@@ -1,5 +1,6 @@
 package controllers;
 
+import constants.Constants;
 import constants.ConstantsJSP;
 import constants.Status;
 import dao.IToDoDAO;
@@ -23,18 +24,13 @@ import java.util.List;
 
 @WebServlet(name = "TodoController", urlPatterns = {"/TodoController"})
 public class TodoController extends HttpServlet {
-
     private RequestDispatcher dispatcher = null;
-
     private IToDoDAO toDoDAO = DAOFactory.getDAO(IToDoDAO.class);
-
     private IUserDAO userDAO = DAOFactory.getDAO(IUserDAO.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         toDoDAO.updateExpiredTasks();
-
         String action = request.getParameter(ConstantsJSP.KEY_ACTION);
 
         if (action == null) {
@@ -42,44 +38,34 @@ public class TodoController extends HttpServlet {
         }
 
         switch (action) {
-
             case "LIST":
                 listTasks(request, response);
                 break;
-
             case "EDIT":
                 getSingleEvent(request, response);
                 break;
-
             case "DELETE":
                 deleteTask(request, response);
                 break;
-
             case "DONE":
                 doneTask(request, response);
                 break;
-
             case "DATE":
                 dateTaskList(request, response);
                 break;
-
             case "EXPIRED":
                 expiredTask(request, response);
                 break;
-
             case "RECOVERY":
                 recoveryTask(request, response);
                 break;
-
             default:
                 listTasks(request, response);
                 break;
-
         }
     }
 
     public void listTasks(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String statusToDo = request.getParameter(ConstantsJSP.KEY_STATUS);
         HttpSession session = request.getSession();
         String loginSession = (String) session.getAttribute(ConstantsJSP.KEY_LOGIN);
@@ -107,31 +93,27 @@ public class TodoController extends HttpServlet {
     }
 
     private void getSingleEvent(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         Integer id = Integer.valueOf(request.getParameter(ConstantsJSP.KEY_ID));
-
         ToDo currentTask = toDoDAO.getById(id);
 
         request.setAttribute(ConstantsJSP.KEY_CURRENT_TASK, currentTask);
-
         request.setAttribute(ConstantsJSP.KEY_LIST_NAME, ConstantsJSP.MESSAGE_EDIT_TASK);
+
         dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO);
         dispatcher.forward(request, response);
     }
 
     private void deleteTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
         byte statusToDo = Byte.parseByte(request.getParameter(ConstantsJSP.KEY_STATUS));
         String fileName = request.getParameter(ConstantsJSP.KEY_FILE_NAME);
-        String filePath = "C:\\Files\\resources" + File.separator + fileName;
+        String filePath = Constants.UPLOAD_PATH + File.separator + fileName;
         File file = new File(filePath);
-
 
         if (statusToDo == Status.RECYCLE) {
             if (toDoDAO.delete(id)) {
                 if (file.exists()) {
-                    file.delete();
+                    file.delete();// FIXME - метод игнорится
                 }
                 request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_DELETE);
             }
@@ -146,23 +128,20 @@ public class TodoController extends HttpServlet {
     }
 
     private void expiredTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         HttpSession session = request.getSession();
         String loginSession = (String) session.getAttribute(ConstantsJSP.KEY_LOGIN);
         byte statusToDo = Byte.parseByte(request.getParameter(ConstantsJSP.KEY_STATUS));
         int userId = userDAO.getUserId(loginSession);
-
         List<ToDo> expiredList = toDoDAO.getAllTasksByStatus(userId, statusToDo);
 
         request.setAttribute(ConstantsJSP.KEY_LIST_NAME, ConstantsJSP.MESSAGE_EXPIRED_TASK);
         request.setAttribute(ConstantsJSP.KEY_LIST, expiredList);
+
         dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO_LIST);
         dispatcher.forward(request, response);
     }
 
-
     private void doneTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
         byte statusToDo = Byte.parseByte(request.getParameter(ConstantsJSP.KEY_STATUS));
 
@@ -178,12 +157,10 @@ public class TodoController extends HttpServlet {
                 request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_TASK_DONE);
             }
         }
-
         listTasks(request, response);
     }
 
     private void recoveryTask(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
 
         if (toDoDAO.recoveryThisTask(id)) {
@@ -192,7 +169,6 @@ public class TodoController extends HttpServlet {
 //        listTasks(request, response);
         dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_RECOVERY);
         dispatcher.forward(request, response);
-
     }
 
     private void dateTaskList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -223,9 +199,7 @@ public class TodoController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter(ConstantsJSP.KEY_ACTION);
 
         if (action == null) {
@@ -233,38 +207,33 @@ public class TodoController extends HttpServlet {
         }
 
         switch (action) {
-
             case "SELECT_DATE":
                 selectDate(request, response);
                 break;
-
             case "LIST":
                 listTasks(request, response);
                 break;
-
         }
     }
 
     private void selectDate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         String dateToDo = request.getParameter(ConstantsJSP.KEY_DATE_TODO);
-        if (dateToDo == null || dateToDo.equals("")) {
+        if (dateToDo == null || dateToDo.isEmpty()) {
             request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_DATE_NOT_FOUND);
             dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO_LIST);
             dispatcher.forward(request, response);
         }
-            Byte actualStatus = Status.ACTUAL;
+            byte actualStatus = Status.ACTUAL;
 
             HttpSession session = request.getSession();
             String loginSession = (String) session.getAttribute(ConstantsJSP.KEY_LOGIN);
             int userId = userDAO.getUserId(loginSession);
 
-            List<ToDo> todayList = toDoDAO.getAllTasksByDate(userId, actualStatus, Date.valueOf(dateToDo));
+            List<ToDo> todayList = toDoDAO.getAllTasksByDate(userId, actualStatus, Date.valueOf(dateToDo));//FIXME - надо проверку на null добавить
 
             request.setAttribute(ConstantsJSP.KEY_LIST_NAME, ConstantsJSP.MESSAGE_TASKS_FOR + Date.valueOf(dateToDo));
             request.setAttribute(ConstantsJSP.KEY_LIST, todayList);
             dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO_LIST);
             dispatcher.forward(request, response);
     }
-
 }

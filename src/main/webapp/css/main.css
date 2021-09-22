@@ -22,13 +22,11 @@ body { /*цвета*/
     text-align: right;
 }
 
-
 header {
     background: linear-gradient(#15141512 1%, #4e4751db 40%, #4e4751d1 70%, #e19fe130 99%);
     height: 55px;
     border-radius: 20px 20px 0 0;
     padding: 0.3% 20px 0px;
-
 }
 
 header h1 { /*todo - task manager*/
@@ -45,9 +43,7 @@ header h2 { /*hello*/
     font-size: 200%;
     margin: 0.3%;
     margin-left: 300px;
-
 }
-
 
 #topmenu { /*logout*/
     padding: 0;
@@ -58,7 +54,6 @@ header h2 { /*hello*/
 
 #topmenu li {
     float: left; /*Список в одну горизот строку*/
-
 }
 
 #topmenu a { /*Обращение к самому элементу с сылкой*/
@@ -67,7 +62,6 @@ header h2 { /*hello*/
     display: block; /*для того чтобы сделать поля для кнопки*/
     padding: 9px 14px 9px; /*первая цифра сверху, вторая снизу, третья слева и права*/
     text-decoration: none; /*убираем одчеркивание*/
-
 }
 
 /*при наведении на ссылку цвет*/
@@ -77,7 +71,6 @@ header h2 { /*hello*/
     padding: 8px 13px 8px; /*уменьшение чтобы не смущалось*/
     border-radius: 5px; /*закругление*/
 }
-
 
 #slider {
     background-color: #c395a824;
@@ -101,7 +94,6 @@ header h2 { /*hello*/
 
 #course p {
     margin: 0;
-
 }
 
 #course section { /*кусок где написан текст*/
@@ -126,7 +118,6 @@ header h2 { /*hello*/
     margin: 20px 10px; /*опускаем все блоки чуть ниже от слайдера*/
 }
 
-
 .block { /*блоки*/
     width: 220px; /*ужимаем блок до нужного размера*/
 }
@@ -144,7 +135,6 @@ header h2 { /*hello*/
     border-radius: 0 0 5px 5px;
     box-shadow: 3px 4px 10px #dddcdd;
     padding: 10px;
-
 }
 
 .block-content p {
@@ -168,7 +158,6 @@ header h2 { /*hello*/
 
 .block nav > div > a:only-of-type { /*обращение к непоресредственно дочернему div*/
     background: url("../img/menu_sep.png") no-repeat center bottom, url("../img/arrow_menu.png") no-repeat 5px center;
-
 }
 
 .block nav a {
@@ -182,7 +171,6 @@ header h2 { /*hello*/
 .block nav p{
     color: rgb(255, 255, 255);
     margin:auto;
-
 }
 
 .block nav div a:hover, .block div a.active { /*активная строчка*/
@@ -191,7 +179,6 @@ header h2 { /*hello*/
 }
 
 /*Правый блок*/
-
 #left {
     float: left;
 }

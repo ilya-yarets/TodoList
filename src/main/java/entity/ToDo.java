@@ -1,10 +1,11 @@
 package entity;
 
+import constants.Constants;
+
 import java.sql.Date;
 import java.util.Objects;
 
 public class ToDo {
-
     private Integer id;
     private Date dateToDo;
     private String nameToDo;
@@ -13,7 +14,7 @@ public class ToDo {
     private int userId;
 
     public ToDo() {
-        nameToDo = "";
+        nameToDo = Constants.EMPTY_LINE;
     }
 
     public Integer getId() {
@@ -84,13 +85,7 @@ public class ToDo {
 
     @Override
     public String toString() {
-        return "ToDo{" +
-                "id=" + id +
-                ", dateToDo=" + dateToDo +
-                ", nameToDo='" + nameToDo + '\'' +
-                ", statusToDo=" + statusToDo +
-                ", fileNameToDo='" + fileNameToDo + '\'' +
-                ", userId=" + userId +
-                '}';
+        return "ToDo{id=" + id + ", dateToDo=" + dateToDo + ", nameToDo='" + nameToDo + "', statusToDo=" + statusToDo +
+                ", fileNameToDo='" + fileNameToDo + "', userId=" + userId + '}';
     }
 }

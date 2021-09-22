@@ -1,5 +1,7 @@
 package entity;
 
+import constants.Constants;
+
 public class User {
     private Integer id;
     private String firstName;
@@ -8,10 +10,10 @@ public class User {
     private String password;
 
     public User() {
-        firstName = "";
-        lastName = "";
-        login = "";
-        password = "";
+        firstName = Constants.EMPTY_LINE;
+        lastName = Constants.EMPTY_LINE;
+        login = Constants.EMPTY_LINE;
+        password = Constants.EMPTY_LINE;
     }
 
     public Integer getId() {
@@ -58,15 +60,12 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         User user = (User) o;
-
         if (id != null ? !id.equals(user.id) : user.id != null) return false;
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
         return password != null ? password.equals(user.password) : user.password == null;
-
     }
 
     @Override
@@ -81,12 +80,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return "User{id=" + id + ", firstName='" + firstName + "', lastName='" + lastName +
+                "', login='" + login +"', password='" + password + "'}";
     }
 }
