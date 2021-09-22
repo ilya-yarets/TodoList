@@ -1,5 +1,7 @@
 package entity;
 
+import constants.Constants;
+
 public class User {
     private Integer id;
     private String firstName;
@@ -8,10 +10,10 @@ public class User {
     private String password;
 
     public User() {
-        firstName = "";
-        lastName = "";
-        login = "";
-        password = "";
+        firstName = Constants.EMPTY_LINE;
+        lastName = Constants.EMPTY_LINE;
+        login = Constants.EMPTY_LINE;
+        password = Constants.EMPTY_LINE;
     }
 
     public Integer getId() {

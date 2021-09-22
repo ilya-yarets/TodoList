@@ -1,5 +1,6 @@
 package controllers;
 
+import constants.Constants;
 import constants.ConstantsJSP;
 import constants.Status;
 import dao.IToDoDAO;
@@ -106,13 +107,13 @@ public class TodoController extends HttpServlet {
         int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
         byte statusToDo = Byte.parseByte(request.getParameter(ConstantsJSP.KEY_STATUS));
         String fileName = request.getParameter(ConstantsJSP.KEY_FILE_NAME);
-        String filePath = "C:\\Files\\resources" + File.separator + fileName;
+        String filePath = Constants.UPLOAD_PATH + File.separator + fileName;
         File file = new File(filePath);
 
         if (statusToDo == Status.RECYCLE) {
             if (toDoDAO.delete(id)) {
                 if (file.exists()) {
-                    file.delete();
+                    file.delete();// FIXME - метод игнорится
                 }
                 request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_DELETE);
             }
@@ -217,7 +218,7 @@ public class TodoController extends HttpServlet {
 
     private void selectDate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String dateToDo = request.getParameter(ConstantsJSP.KEY_DATE_TODO);
-        if (dateToDo == null || dateToDo.equals("")) {
+        if (dateToDo == null || dateToDo.isEmpty()) {
             request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_DATE_NOT_FOUND);
             dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO_LIST);
             dispatcher.forward(request, response);
@@ -228,7 +229,7 @@ public class TodoController extends HttpServlet {
             String loginSession = (String) session.getAttribute(ConstantsJSP.KEY_LOGIN);
             int userId = userDAO.getUserId(loginSession);
 
-            List<ToDo> todayList = toDoDAO.getAllTasksByDate(userId, actualStatus, Date.valueOf(dateToDo));
+            List<ToDo> todayList = toDoDAO.getAllTasksByDate(userId, actualStatus, Date.valueOf(dateToDo));//FIXME - надо проверку на null добавить
 
             request.setAttribute(ConstantsJSP.KEY_LIST_NAME, ConstantsJSP.MESSAGE_TASKS_FOR + Date.valueOf(dateToDo));
             request.setAttribute(ConstantsJSP.KEY_LIST, todayList);

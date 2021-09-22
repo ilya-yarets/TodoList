@@ -1,5 +1,7 @@
 package entity;
 
+import constants.Constants;
+
 import java.sql.Date;
 import java.util.Objects;
 
@@ -12,7 +14,7 @@ public class ToDo {
     private int userId;
 
     public ToDo() {
-        nameToDo = "";
+        nameToDo = Constants.EMPTY_LINE;
     }
 
     public Integer getId() {
