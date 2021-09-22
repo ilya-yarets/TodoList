@@ -5,7 +5,7 @@ public final class ConstantsJSP {
     public static final String KEY_ERROR_MESSAGE = "errorMessage";
 
     public static final String KEY_ERROR = "error";
-    public static final String ERROR_WRONG_lOGIN_OR_PASSWORD = "Wrong password or login.";
+    public static final String ERROR_WRONG_LOGIN_OR_PASSWORD = "Wrong password or login.";
 
     //message
     public static final String KEY_NOTIFICATION = "NOTIFICATION";
@@ -20,7 +20,6 @@ public final class ConstantsJSP {
     public static final String MESSAGE_FILE_NOT_FOUND = "File not found. Please return to the task list and add the file!";
     public static final String MESSAGE_DATE_NOT_FOUND = "DATE not found. Please return to the task list and select the date!";
 
-
     //lists tasks
     public static final String KEY_LIST_NAME = "LIST_NAME";
 
@@ -32,7 +31,6 @@ public final class ConstantsJSP {
     public static final String MESSAGE_EXPIRED_TASK = "Expired";
     public static final String MESSAGE_TASKS_FOR = "Tasks for ";
     public static final String MESSAGE_ADD_NEW_TASK = "Add new task";
-
 
     //attributes
     public static final String KEY_LOGIN = "login";
@@ -51,7 +49,7 @@ public final class ConstantsJSP {
     public static final String KEY_TOMORROW = "Tomorrow";
     public static final String KEY_FILE_NAME = "fileName";
 
-    //todocontroller
+    //todo_controller
     public static final String KEY_ACTION = "action";
 
     //pages
@@ -64,6 +62,4 @@ public final class ConstantsJSP {
     public static final String JUMP_LIST = "/TodoController?LIST";
 
     public static final String EMPTY = "";
-
-
 }

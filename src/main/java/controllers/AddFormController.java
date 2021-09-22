@@ -21,22 +21,16 @@ import java.sql.Date;
         maxFileSize = 1024 * 1024 * 1000, // 1 GB
         maxRequestSize = 1024 * 1024 * 1000)    // 1 GB
 public class AddFormController extends BaseController {
-
     private RequestDispatcher dispatcher = null;
-
     private IToDoDAO toDoDAO = DAOFactory.getDAO(IToDoDAO.class);
-
     private IUserDAO userDAO = DAOFactory.getDAO(IUserDAO.class);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String id = request.getParameter(ConstantsJSP.KEY_ID);
         String nameToDo = request.getParameter(ConstantsJSP.KEY_NAME_TODO);
         String dateToDo = request.getParameter(ConstantsJSP.KEY_DATE_TODO);
@@ -46,30 +40,25 @@ public class AddFormController extends BaseController {
             dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO_LIST);
             dispatcher.forward(request, response);
         }
+        ToDo event = new ToDo();
 
-            ToDo event = new ToDo();
-
-            event.setNameToDo(nameToDo);
-            event.setDateToDo(Date.valueOf(dateToDo));
+        event.setNameToDo(nameToDo);
+        event.setDateToDo(Date.valueOf(dateToDo));
 
         HttpSession session = request.getSession();
         String loginSession = (String) session.getAttribute(ConstantsJSP.KEY_LOGIN);
         event.setUserId(userDAO.getUserId(loginSession));
 
-
-        if (id.isEmpty() || id == null) {
+        if (id == null || id.isEmpty()) {
             toDoDAO.addNewTask(event);
             request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_ADD_NEW_TASK);
-
         } else {
             event.setId(Integer.parseInt(id));
-
-            if (toDoDAO.update(event))
+            if (toDoDAO.update(event)){
                 request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_NOTIFICATION_SUCCESS);
+            }
         }
-
         dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_LIST);
         dispatcher.forward(request, response);
     }
-
 }

@@ -10,14 +10,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
 public abstract class BaseController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	// to forward to a view layer
-	protected void forward(String url, HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException {
+	protected void forward(String url, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher rd = getServletContext().getRequestDispatcher(url);
 		rd.forward(request, response);
 	}

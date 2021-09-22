@@ -8,9 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
 public class FileService implements IFileDAO {
-
     Connection connection = MyConnector.getConnection();
 
     public FileService() {
@@ -25,11 +23,9 @@ public class FileService implements IFileDAO {
 
             preparedStatement.executeUpdate();
             flag = true;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return flag;
     }
-
 }

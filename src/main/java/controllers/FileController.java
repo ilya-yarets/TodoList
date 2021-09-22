@@ -24,32 +24,25 @@ import java.nio.file.StandardCopyOption;
         maxRequestSize = 1024 * 1024 * 1000)    // 1 GB
 
 public class FileController extends BaseController {
-
     RequestDispatcher dispatcher = null;
-
     private IFileDAO iFileDAO = DAOFactory.getDAO(IFileDAO.class);
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter(ConstantsJSP.KEY_ACTION);
 
         switch (action) {
-
             case "DELETE":
                 deleteFile(request, response);
                 break;
         }
-
     }
 
     private void deleteFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         try {
             int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
             String fileName = request.getParameter(ConstantsJSP.KEY_FILE_NAME);
             String filePath = "C:\\Files\\resources" + File.separator + fileName;
-
 
             File file = new File(filePath);
             if (file.exists()) {
@@ -65,19 +58,14 @@ public class FileController extends BaseController {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter(ConstantsJSP.KEY_ACTION);
 
         switch (action) {
-
             case "UPLOAD":
                 uploadFile(request, response);
                 break;
-
         }
-
     }
 
     private void uploadFile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -91,7 +79,7 @@ public class FileController extends BaseController {
             Part file = request.getPart(ConstantsJSP.KEY_FILE_NAME_TODO);
 
                 String fileName = file.getSubmittedFileName();
-            if (fileName == null || fileName =="") {
+            if (fileName == null || fileName =="") { //FIXME - is == required or will be better equals operation?
                 request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_FILE_NOT_FOUND);
                 dispatcher = request.getRequestDispatcher(ConstantsJSP.JUMP_TODO_LIST);
                 dispatcher.forward(request, response);
@@ -100,7 +88,7 @@ public class FileController extends BaseController {
                 InputStream is = file.getInputStream();
                 Files.copy(is, Paths.get(uploadPath + File.separator + fileName), StandardCopyOption.REPLACE_EXISTING);
 
-                Integer id = Integer.valueOf(request.getParameter(ConstantsJSP.KEY_ID));
+                int id = Integer.parseInt(request.getParameter(ConstantsJSP.KEY_ID));
 
                 if (iFileDAO.updateFilePath(id, fileName, path))
                     request.setAttribute(ConstantsJSP.KEY_NOTIFICATION, ConstantsJSP.MESSAGE_NOTIFICATION_ADDED);
@@ -112,5 +100,4 @@ public class FileController extends BaseController {
             e.printStackTrace();
         }
     }
-
 }

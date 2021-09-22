@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserService implements IUserDAO {
-
     static Connection connection = MyConnector.getConnection();
 
     @Override
@@ -23,24 +22,22 @@ public class UserService implements IUserDAO {
             preparedStatement.setString(4, user.getPassword());
 
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 
     public boolean userVerification(String login, String password) {
         boolean check = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_USER_BY_LOGIN_PASSWORD)) {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
+
             ResultSet rs1 = preparedStatement.executeQuery();
             check = rs1.next();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return check;
     }
 
@@ -56,9 +53,6 @@ public class UserService implements IUserDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return id;
     }
-
 }
-

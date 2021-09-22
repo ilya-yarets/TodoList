@@ -11,9 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ToDoService implements IToDoDAO {
-
     private Connection connection = MyConnector.getConnection();
 
     public ToDoService() {
@@ -48,7 +46,7 @@ public class ToDoService implements IToDoDAO {
 
     @Override
     public List<ToDo> getAllActiveTasksForUser(int userId) {
-        List<ToDo> toDolist = new ArrayList();
+        List<ToDo> toDoList = new ArrayList<>();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASKS_FOR_USER)) {
             preparedStatement.setInt(1, userId);
@@ -61,17 +59,17 @@ public class ToDoService implements IToDoDAO {
                 toDo.setStatusToDo(resultSet.getByte("STATUSTODO"));
                 toDo.setFileNameToDo(resultSet.getString("FILENAMETODO"));
 
-                toDolist.add(toDo);
+                toDoList.add(toDo);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return toDolist;
+        return toDoList;
     }
 
     @Override
     public List<ToDo> getAllTasksByStatus(int userId, byte status) {
-        List<ToDo> toDolist = new ArrayList();
+        List<ToDo> toDoList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASKS_BY_STATUS)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setByte(2, status);
@@ -84,18 +82,17 @@ public class ToDoService implements IToDoDAO {
                 toDo.setStatusToDo(resultSet.getByte("STATUSTODO"));
                 toDo.setFileNameToDo(resultSet.getString("FILENAMETODO"));
 
-                toDolist.add(toDo);
+                toDoList.add(toDo);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return toDolist;
+        return toDoList;
     }
-
 
     @Override
     public List<ToDo> getAllTasksByDate(int userId, byte status, Date taskDate) {
-        List<ToDo> toDolist = new ArrayList();
+        List<ToDo> toDoList = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASKS_FOR_DATE)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setByte(2, status);
@@ -109,12 +106,12 @@ public class ToDoService implements IToDoDAO {
                 toDo.setStatusToDo(resultSet.getByte("STATUSTODO"));
                 toDo.setFileNameToDo(resultSet.getString("FILENAMETODO"));
 
-                toDolist.add(toDo);
+                toDoList.add(toDo);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return toDolist;
+        return toDoList;
     }
 
     @Override
@@ -134,63 +131,50 @@ public class ToDoService implements IToDoDAO {
     public boolean update(ToDo toDo) {
         boolean flag = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.EDIT_TASK)) {
-
             preparedStatement.setDate(1, toDo.getDateToDo());
             preparedStatement.setString(2, toDo.getNameToDo());
             preparedStatement.setInt(3, toDo.getId());
 
-
-            preparedStatement.executeLargeUpdate();
+            preparedStatement.executeLargeUpdate();//FIXME - will throw exception! Is is required?
             flag = true;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return flag;
-
     }
 
     @Override
     public boolean updateStatus(int id, byte newStatus) {
         boolean flag = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.UPDATE_STATUS)) {
-
             preparedStatement.setByte(1, newStatus);
             preparedStatement.setInt(2, id);
 
-
-            preparedStatement.executeLargeUpdate();
+            preparedStatement.executeLargeUpdate();//FIXME - will throw exception! Is is required?
             flag = true;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return flag;
-
     }
 
     @Override
     public boolean recoveryThisTask(int id) {
         boolean flag = false;
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.UPDATE_RECOVERY)) {
-
             preparedStatement.setByte(1, Status.ACTUAL);
             preparedStatement.setInt(2, id);
 
-
-            preparedStatement.executeLargeUpdate();
+            preparedStatement.executeLargeUpdate();//FIXME - will throw exception! Is is required?
             flag = true;
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return flag;
-
     }
 
     @Override
     public ToDo getById(Integer id) {
-
         ToDo toDo = new ToDo();
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASK_BY_ID)) {
@@ -210,22 +194,4 @@ public class ToDoService implements IToDoDAO {
         }
         return toDo;
     }
-
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

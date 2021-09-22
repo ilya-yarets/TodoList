@@ -16,11 +16,8 @@ public class ConstantsSQL {
     public final static String UPDATE_RECOVERY = "UPDATE TODO SET STATUSTODO=?, DATETODO=CURRENT_DATE() WHERE ID=?";
     public final static String GET_TASK_BY_ID = "SELECT ID, DATETODO, NAMETODO, STATUSTODO, FILENAMETODO FROM TODO WHERE ID=?";
 
-
     //User
     public final static String ADD_NEW_USER = "INSERT INTO USER (FIRSTNAME, LASTNAME, LOGIN, PASSWORD) VALUES(?, ?, ?, ?)";
     public final static String GET_USER_BY_LOGIN_PASSWORD = "SELECT * FROM user WHERE login=? and password=?";
     public final static String GET_ID_USER = "SELECT ID FROM user WHERE LOGIN=?";
-
-
 }

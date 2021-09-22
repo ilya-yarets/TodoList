@@ -6,12 +6,11 @@
 out/
 *.iml
 
-### Maven template
+# Maven template
 target/
 !pom.xml
 
-
-### Java template
+# Java template
 # Compiled class file
 *.class
 

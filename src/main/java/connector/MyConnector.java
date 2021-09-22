@@ -6,11 +6,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class MyConnector {
-
     private static Connection connection = null;
-
     public static Connection getConnection() {
-
         try {
             final String FILE_NAME = "database";
             ResourceBundle resourceBundle = ResourceBundle.getBundle(FILE_NAME);
@@ -38,5 +35,4 @@ public class MyConnector {
             }
         }
     }
-
 }
