@@ -1,5 +1,7 @@
 package connector;
 
+import constants.ConstantsDB;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -7,14 +9,21 @@ import java.util.ResourceBundle;
 
 public class MyConnector {
     private static Connection connection = null;
+
     public static Connection getConnection() {
+        if(connection == null){
+            setConnection();
+        }
+        return connection;
+    }
+
+    private static void setConnection(){
         try {
-            final String FILE_NAME = "database";
-            ResourceBundle resourceBundle = ResourceBundle.getBundle(FILE_NAME);
-            Class.forName(resourceBundle.getString("host"));
-            String url = resourceBundle.getString("url");
-            String user = resourceBundle.getString("user");
-            String password = resourceBundle.getString("password");
+            ResourceBundle resourceBundle = ResourceBundle.getBundle(ConstantsDB.DB_PROPERTY_FILE_NAME);
+            Class.forName(resourceBundle.getString(ConstantsDB.HOST));
+            String url = resourceBundle.getString(ConstantsDB.URL);
+            String user = resourceBundle.getString(ConstantsDB.USER);
+            String password = resourceBundle.getString(ConstantsDB.PASSWORD);
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("Connection with mySQL completed successfully");
         } catch (ClassNotFoundException e) {
@@ -23,10 +32,9 @@ public class MyConnector {
             System.out.println("SQL Exception!");
             e.printStackTrace();
         }
-        return connection;
     }
 
-    public static void closeConnection() {
+    public static void closeConnection() {//FIXME - использовать методы закрытия ресурсов
         if (connection != null) {
             try {
                 connection.close();

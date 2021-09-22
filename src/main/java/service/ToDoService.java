@@ -2,7 +2,7 @@ package service;
 
 import connector.MyConnector;
 import constants.ConstantsJSP;
-import constants.ConstantsSQL;
+import constants.ConstantsDB;
 import constants.Status;
 import dao.IToDoDAO;
 import entity.ToDo;
@@ -20,7 +20,7 @@ public class ToDoService implements IToDoDAO {
     @Override
     public void addNewTask(ToDo toDo) {
         Timestamp added_date = new Timestamp(System.currentTimeMillis());
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.ADD_NEW_TASK)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.ADD_NEW_TASK)) {
             preparedStatement.setDate(1, toDo.getDateToDo());
             preparedStatement.setString(2, toDo.getNameToDo());
             preparedStatement.setByte(3, Status.ACTUAL);
@@ -37,7 +37,7 @@ public class ToDoService implements IToDoDAO {
 
     @Override
     public void updateExpiredTasks() {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.EXPIRED)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.EXPIRED)) {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class ToDoService implements IToDoDAO {
     public List<ToDo> getAllActiveTasksForUser(int userId) {
         List<ToDo> toDoList = new ArrayList<>();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASKS_FOR_USER)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.GET_TASKS_FOR_USER)) {
             preparedStatement.setInt(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -70,7 +70,7 @@ public class ToDoService implements IToDoDAO {
     @Override
     public List<ToDo> getAllTasksByStatus(int userId, byte status) {
         List<ToDo> toDoList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASKS_BY_STATUS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.GET_TASKS_BY_STATUS)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setByte(2, status);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -93,7 +93,7 @@ public class ToDoService implements IToDoDAO {
     @Override
     public List<ToDo> getAllTasksByDate(int userId, byte status, Date taskDate) {
         List<ToDo> toDoList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASKS_FOR_DATE)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.GET_TASKS_FOR_DATE)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setByte(2, status);
             preparedStatement.setDate(3, taskDate);
@@ -117,7 +117,7 @@ public class ToDoService implements IToDoDAO {
     @Override
     public boolean delete(int id) {
         boolean flag = false;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.DELETE_TASK)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.DELETE_TASK)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             flag = true;
@@ -130,7 +130,7 @@ public class ToDoService implements IToDoDAO {
     @Override
     public boolean update(ToDo toDo) {
         boolean flag = false;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.EDIT_TASK)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.EDIT_TASK)) {
             preparedStatement.setDate(1, toDo.getDateToDo());
             preparedStatement.setString(2, toDo.getNameToDo());
             preparedStatement.setInt(3, toDo.getId());
@@ -146,7 +146,7 @@ public class ToDoService implements IToDoDAO {
     @Override
     public boolean updateStatus(int id, byte newStatus) {
         boolean flag = false;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.UPDATE_STATUS)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.UPDATE_STATUS)) {
             preparedStatement.setByte(1, newStatus);
             preparedStatement.setInt(2, id);
 
@@ -161,7 +161,7 @@ public class ToDoService implements IToDoDAO {
     @Override
     public boolean recoveryThisTask(int id) {
         boolean flag = false;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.UPDATE_RECOVERY)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.UPDATE_RECOVERY)) {
             preparedStatement.setByte(1, Status.ACTUAL);
             preparedStatement.setInt(2, id);
 
@@ -177,7 +177,7 @@ public class ToDoService implements IToDoDAO {
     public ToDo getById(Integer id) {
         ToDo toDo = new ToDo();
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_TASK_BY_ID)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.GET_TASK_BY_ID)) {
             preparedStatement.setInt(1, id);
 
             ResultSet resultSet = preparedStatement.executeQuery();

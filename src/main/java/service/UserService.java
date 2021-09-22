@@ -1,7 +1,7 @@
 package service;
 
 import connector.MyConnector;
-import constants.ConstantsSQL;
+import constants.ConstantsDB;
 import dao.IUserDAO;
 import entity.User;
 
@@ -15,7 +15,7 @@ public class UserService implements IUserDAO {
 
     @Override
     public void RegisterUser(User user) {
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.ADD_NEW_USER)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.ADD_NEW_USER)) {
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
             preparedStatement.setString(3, user.getLogin());
@@ -29,7 +29,7 @@ public class UserService implements IUserDAO {
 
     public boolean userVerification(String login, String password) {
         boolean check = false;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_USER_BY_LOGIN_PASSWORD)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.GET_USER_BY_LOGIN_PASSWORD)) {
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
 
@@ -43,7 +43,7 @@ public class UserService implements IUserDAO {
 
     public int getUserId(String login) {
         int id = 0;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.GET_ID_USER)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.GET_ID_USER)) {
             preparedStatement.setString(1, login);
 
             ResultSet resultSet = preparedStatement.executeQuery();

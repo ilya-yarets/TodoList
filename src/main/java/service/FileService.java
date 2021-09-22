@@ -1,7 +1,7 @@
 package service;
 
 import connector.MyConnector;
-import constants.ConstantsSQL;
+import constants.ConstantsDB;
 import dao.IFileDAO;
 
 import java.sql.Connection;
@@ -16,7 +16,7 @@ public class FileService implements IFileDAO {
 
     public boolean updateFilePath(int id, String filename, String pathFile) {
         boolean flag = false;
-        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsSQL.UPDATE_FILE_PATH)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(ConstantsDB.UPDATE_FILE_PATH)) {
             preparedStatement.setString(1, filename);
             preparedStatement.setString(2, pathFile);
             preparedStatement.setInt(3, id);
